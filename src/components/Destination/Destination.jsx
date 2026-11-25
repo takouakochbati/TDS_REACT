@@ -1,60 +1,37 @@
-import { useState } from "react";
-import styles from "./Destination.module.css";
 
-function Destination({ image, title, country, description, price }) {
-  const [afficherDetails, setAfficherDetails] = useState(false);
-  const [estFavori, setEstFavori] = useState(false);
-  const [message, setMessage] = useState("");
+import style from "./Destination.module.css";
+import {useState} from "react"
+function Destination({ image, titre, pays, description, prix }) {
+    const [afficher,setAfficher]=useState(false);
 
-  function basculerDetails() {
-    setAfficherDetails(!afficherDetails);
-  }
-
-  function basculerFavori() {
-    if (estFavori) {
-      setMessage("Cette destination est déjà dans vos favoris");
-    } else {
-      setEstFavori(true);
-      setMessage("");
+    function swap(){
+        setAfficher(!afficher);
     }
-  }
+    return (
+        <div className={style.destination}>
 
-  function reinitialiser() {
-    setAfficherDetails(false);
-    setEstFavori(false);
-    setMessage("");
-  }
+            <img
+                src={image}
+                alt={titre}
+                className={style.image}
+            />
 
-  return (
-    <article className={styles.destination}>
-      <img className={styles.image} src={image} alt={title} />
-      <h3 className={styles.titre}>{title}</h3>
-      <p className={styles.pays}>{country}</p>
+            <h2 className={style.titre}>{titre}</h2>
 
-      {afficherDetails && <p className={styles.description}>{description}</p>}
+            <p className={style.pays}>{pays}</p>
 
-      <p className={styles.prix}>{price}</p>
+           
+            {afficher && <p className={style.description}>
+                {description}
+            </p>
+            }
+            <h3 className={style.prix}>{prix} DT</h3>
+            <button onClick={swap}>
+                {afficher ? "Masque" : "afficher"}
+            </button>
 
-      <div className={styles.boutons}>
-        <button className={styles.btnDetails} onClick={basculerDetails}>
-          {afficherDetails ? "Masquer les détails" : "Voir les détails"}
-        </button>
-
-        <button
-          className={`${styles.btnFavori} ${estFavori ? styles.actif : ""}`}
-          onClick={basculerFavori}
-        >
-          {estFavori ? "❤ Dans mes favoris" : "♡ Ajouter aux favoris"}
-        </button>
-
-        <button className={styles.btnReset} onClick={reinitialiser}>
-          Réinitialiser
-        </button>
-      </div>
-
-      {message && <p className={styles.message}>{message}</p>}
-    </article>
-  );
+        </div>
+    );
 }
 
 export default Destination;
